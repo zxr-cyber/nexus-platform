@@ -21,10 +21,11 @@ services:
       - key: BASE_DOMAIN
         value: nexuslaunch.app
 
-  - type: static
+  - type: web
     name: nexus-frontend
+    env: static
     buildCommand: npm install && npm run build
-    publishPath: frontend/dist
+    staticPublishPath: ./frontend/dist
     rootDir: frontend
     envVars:
       - key: VITE_SUPABASE_URL
