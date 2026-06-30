@@ -1,26 +1,41 @@
-import React from 'react';
-import { HashRouter, Routes, Route, Link } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from './components/Layout';
 
-function Home() {
-  return <div style={{ color: 'white', padding: '20px' }}>🏠 Home Page</div>;
-}
-
-function About() {
-  return <div style={{ color: 'white', padding: '20px' }}>📄 About Page</div>;
-}
+// Lazy load pages
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Generate = lazy(() => import('./pages/Generate'));
+const Builder = lazy(() => import('./pages/Builder'));
+const Deploy = lazy(() => import('./pages/Deploy'));
+const PublishedPage = lazy(() => import('./pages/PublishedPage'));
 
 function App() {
   return (
-    <HashRouter>
-      <nav style={{ padding: '10px', background: '#222', display: 'flex', gap: '20px' }}>
-        <Link to="/" style={{ color: 'white' }}>Home</Link>
-        <Link to="/about" style={{ color: 'white' }}>About</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </HashRouter>
+    <AuthProvider>
+      <HashRouter>
+        <Suspense fallback={<div className="flex items-center justify-center h-screen text-white">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/p/:slug" element={<PublishedPage />} />
+            
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/generate" element={<Generate />} />
+                <Route path="/builder/:id?" element={<Builder />} />
+                <Route path="/deploy" element={<Deploy />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Suspense>
+      </HashRouter>
+    </AuthProvider>
   );
 }
 
