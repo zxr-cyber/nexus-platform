@@ -1,31 +1,19 @@
 import React from 'react';
-import { HashRouter, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './components/Layout';
 
-// Simple pages (no lazy, no auth)
-function Home() {
-  return <div style={{ color: 'white', padding: '20px' }}>🏠 Home - Test</div>;
-}
-
-function Login() {
-  return <div style={{ color: 'white', padding: '20px' }}>🔐 Login Page</div>;
-}
-
-function Dashboard() {
-  return <div style={{ color: 'white', padding: '20px' }}>📊 Dashboard (No Auth)</div>;
-}
+// Simple pages (no auth)
+const Login = () => <div style={{ color: 'white', padding: '20px' }}>🔐 Login</div>;
+const Dashboard = () => <div style={{ color: 'white', padding: '20px' }}>📊 Dashboard</div>;
 
 function App() {
   return (
     <HashRouter>
-      <nav style={{ padding: '10px', background: '#222', display: 'flex', gap: '20px' }}>
-        <Link to="/" style={{ color: 'white' }}>Home</Link>
-        <Link to="/login" style={{ color: 'white' }}>Login</Link>
-        <Link to="/dashboard" style={{ color: 'white' }}>Dashboard</Link>
-      </nav>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+        </Route>
       </Routes>
     </HashRouter>
   );
