@@ -1,41 +1,33 @@
-import React, { lazy, Suspense } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import { Layout } from './components/Layout';
+import React from 'react';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 
-// Lazy load pages
-const Login = lazy(() => import('./pages/Login'));
-const Register = lazy(() => import('./pages/Register'));
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const Generate = lazy(() => import('./pages/Generate'));
-const Builder = lazy(() => import('./pages/Builder'));
-const Deploy = lazy(() => import('./pages/Deploy'));
-const PublishedPage = lazy(() => import('./pages/PublishedPage'));
+// Simple pages (no lazy, no auth)
+function Home() {
+  return <div style={{ color: 'white', padding: '20px' }}>🏠 Home - Test</div>;
+}
+
+function Login() {
+  return <div style={{ color: 'white', padding: '20px' }}>🔐 Login Page</div>;
+}
+
+function Dashboard() {
+  return <div style={{ color: 'white', padding: '20px' }}>📊 Dashboard (No Auth)</div>;
+}
 
 function App() {
   return (
-    <AuthProvider>
-      <HashRouter>
-        <Suspense fallback={<div className="flex items-center justify-center h-screen text-white">Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/p/:slug" element={<PublishedPage />} />
-            
-            <Route element={<ProtectedRoute />}>
-              <Route element={<Layout />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/generate" element={<Generate />} />
-                <Route path="/builder/:id?" element={<Builder />} />
-                <Route path="/deploy" element={<Deploy />} />
-              </Route>
-            </Route>
-          </Routes>
-        </Suspense>
-      </HashRouter>
-    </AuthProvider>
+    <HashRouter>
+      <nav style={{ padding: '10px', background: '#222', display: 'flex', gap: '20px' }}>
+        <Link to="/" style={{ color: 'white' }}>Home</Link>
+        <Link to="/login" style={{ color: 'white' }}>Login</Link>
+        <Link to="/dashboard" style={{ color: 'white' }}>Dashboard</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </HashRouter>
   );
 }
 
