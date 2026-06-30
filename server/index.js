@@ -5,13 +5,15 @@ const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL || '*' }));
 app.use(express.json({ limit: '50mb' }));
 
-// Routes
+// === ROUTES (Hanya yang sedia ada) ===
 app.use('/api/generate', require('./routes/generate'));
-app.use('/api/deploy', require('./routes/deploy'));
-app.use('/api/projects', require('./routes/projects'));
-app.use('/api/snapshots', require('./routes/snapshots'));
-app.use('/api/share', require('./routes/share'));
-app.use('/api/models', require('./routes/models'));
+
+// === Sementara komen dulu yang lain ===
+// app.use('/api/deploy', require('./routes/deploy'));
+// app.use('/api/projects', require('./routes/projects'));
+// app.use('/api/snapshots', require('./routes/snapshots'));
+// app.use('/api/share', require('./routes/share'));
+// app.use('/api/models', require('./routes/models'));
 
 app.get('/health', (req, res) => res.send('OK'));
 
