@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: nexus-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    rootDir: server
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: BASE_DOMAIN
+        value: nexuslaunch.app
+
+  - type: static
+    name: nexus-frontend
+    buildCommand: npm install && npm run build
+    publishPath: frontend/dist
+    rootDir: frontend
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: VITE_API_URL
+        sync: false
