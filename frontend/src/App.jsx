@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from './components/Layout';
+
+// Lazy load pages
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Generate = lazy(() => import('./pages/Generate'));
+const Builder = lazy(() => import('./pages/Builder'));
+const Deploy = lazy(() => import('./pages/Deploy'));
+const PublishedPage = lazy(() => import('./pages/PublishedPage'));
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center p-4">
-      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 max-w-md w-full">
-        <h1 className="text-2xl font-bold text-pink-500">🚀 Nexus AI</h1>
-        <p className="text-gray-400 text-sm mt-1">Platform dah siap!</p>
-        <p className="text-green-400 text-sm mt-4">✅ Frontend berjaya!</p>
-      </div>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Suspense fallback={<div className="flex items-center justify-center h-screen text-white">Loading...</div>}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/p/:slug" element={<PublishedPage />} />
+            
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/generate" element={<Generate />} />
+                <Route path="/builder/:id?" element={<Builder />} />
+                <Route path="/deploy" element={<Deploy />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
