@@ -1,39 +1,97 @@
 import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import { Layout } from './components/Layout';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 
-// Import pages directly (no lazy loading - more stable)
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Generate from './pages/Generate';
-import Builder from './pages/Builder';
-import Deploy from './pages/Deploy';
-import PublishedPage from './pages/PublishedPage';
+// === PAGES (Ringkas, Tanpa Auth Dulu) ===
+function Home() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: 'white', padding: '20px' }}>
+      <h1 style={{ color: '#ec4899' }}>🚀 Nexus AI</h1>
+      <p>Platform Siap! 🎉</p>
+      <p style={{ fontSize: '14px', color: '#888' }}>Klik menu di bawah untuk navigasi.</p>
+    </div>
+  );
+}
 
+function Login() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: 'white', padding: '20px' }}>
+      <h1 style={{ color: '#ec4899' }}>🔐 Login</h1>
+      <p>Halaman login (ringkas).</p>
+    </div>
+  );
+}
+
+function Dashboard() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: 'white', padding: '20px' }}>
+      <h1 style={{ color: '#ec4899' }}>📊 Dashboard</h1>
+      <p>Selamat datang! Ini dashboard anda.</p>
+    </div>
+  );
+}
+
+function Generate() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: 'white', padding: '20px' }}>
+      <h1 style={{ color: '#ec4899' }}>✨ AI Generator</h1>
+      <p>Taip arahan untuk hasilkan app.</p>
+    </div>
+  );
+}
+
+function Deploy() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: 'white', padding: '20px' }}>
+      <h1 style={{ color: '#ec4899' }}>🚀 Deploy</h1>
+      <p>Senarai deployment anda.</p>
+    </div>
+  );
+}
+
+function Builder() {
+  return (
+    <div style={{ minHeight: '100vh', background: '#0a0a0f', color: 'white', padding: '20px' }}>
+      <h1 style={{ color: '#ec4899' }}>🛠️ Builder</h1>
+      <p>Visual editor akan muncul di sini.</p>
+    </div>
+  );
+}
+
+// === NAVIGATION ===
+function Nav() {
+  return (
+    <nav style={{
+      background: '#1a1a2e',
+      padding: '12px 20px',
+      display: 'flex',
+      gap: '20px',
+      flexWrap: 'wrap',
+      borderBottom: '1px solid #333'
+    }}>
+      <Link to="/" style={{ color: '#ec4899', textDecoration: 'none' }}>🏠 Home</Link>
+      <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
+      <Link to="/dashboard" style={{ color: 'white', textDecoration: 'none' }}>Dashboard</Link>
+      <Link to="/generate" style={{ color: 'white', textDecoration: 'none' }}>Generate</Link>
+      <Link to="/builder" style={{ color: 'white', textDecoration: 'none' }}>Builder</Link>
+      <Link to="/deploy" style={{ color: 'white', textDecoration: 'none' }}>Deploy</Link>
+    </nav>
+  );
+}
+
+// === MAIN APP ===
 function App() {
   return (
-    <AuthProvider>
-      <HashRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/p/:slug" element={<PublishedPage />} />
-          
-          <Route element={<ProtectedRoute />}>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/generate" element={<Generate />} />
-              <Route path="/builder/:id?" element={<Builder />} />
-              <Route path="/deploy" element={<Deploy />} />
-            </Route>
-          </Route>
-        </Routes>
-      </HashRouter>
-    </AuthProvider>
+    <HashRouter>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/generate" element={<Generate />} />
+        <Route path="/builder" element={<Builder />} />
+        <Route path="/deploy" element={<Deploy />} />
+      </Routes>
+    </HashRouter>
   );
 }
 
